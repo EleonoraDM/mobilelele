@@ -9,17 +9,14 @@ import javax.persistence.*;
 public class Model extends BaseEntity {
 
     private String name;
-
     @Enumerated(EnumType.STRING)
     private Category category;
-
-    @Column(length = 512)
+    @Column(length = 512, name = "image_url")
     private String imageUrl;
-
+    @Column(name = "start_year")
     private int startYear;
-
+    @Column(name = "end_year")
     private int endYear;
-
     @ManyToOne
     private Brand brand;
 
