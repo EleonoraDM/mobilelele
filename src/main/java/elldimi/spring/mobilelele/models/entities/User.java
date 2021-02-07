@@ -87,7 +87,6 @@ public class User extends BaseEntity {
     public String toString() {
         final StringBuilder sb = new StringBuilder("User{");
         sb.append("username='").append(username).append('\'');
-        sb.append(", password='").append(password).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", isActive=").append(isActive);

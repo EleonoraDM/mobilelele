@@ -2,23 +2,42 @@ package elldimi.spring.mobilelele;
 
 import elldimi.spring.mobilelele.models.entities.Brand;
 import elldimi.spring.mobilelele.models.entities.Model;
+import elldimi.spring.mobilelele.models.entities.Offer;
+import elldimi.spring.mobilelele.models.entities.User;
 import elldimi.spring.mobilelele.models.entities.enums.Category;
+import elldimi.spring.mobilelele.models.entities.enums.Engine;
+import elldimi.spring.mobilelele.models.entities.enums.Transmission;
 import elldimi.spring.mobilelele.repositories.BrandRepository;
 import elldimi.spring.mobilelele.repositories.ModelRepository;
+import elldimi.spring.mobilelele.repositories.OfferRepository;
+import elldimi.spring.mobilelele.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
 public class DBInitializer implements CommandLineRunner {
     private final BrandRepository brandRepository;
     private final ModelRepository modelRepository;
+    private final OfferRepository offerRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
-    public DBInitializer(BrandRepository brandRepository, ModelRepository modelRepository) {
+    public DBInitializer(
+            BrandRepository brandRepository,
+            ModelRepository modelRepository,
+            OfferRepository offerRepository,
+            PasswordEncoder passwordEncoder,
+            UserRepository userRepository) {
         this.brandRepository = brandRepository;
         this.modelRepository = modelRepository;
+        this.offerRepository = offerRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -59,6 +78,36 @@ public class DBInitializer implements CommandLineRunner {
                 yamaha);
 
         modelRepository.saveAll(List.of(fiesta, civic, focus, YZFR3));
+
+        createOffer(fiesta);
+
+        initAdmin();
+
+    }
+
+    private void initAdmin() {
+        User admin = new User();
+        admin
+                .setFirstName("Dandrick")
+                .setLastName("Eldridge")
+                .setUsername("DDE")
+                .setPassword(passwordEncoder.encode("coward"));
+        userRepository.save(admin);
+    }
+
+    private void createOffer(Model fiesta) {
+        Offer fiestaOffer = new Offer();
+        fiestaOffer
+                .setEngine(Engine.GASOLINE)
+                .setImageUrl("https://imgd.aeplcdn.com/1280x720/cw/cars/ford/fiesta.jpg?q=85")
+                .setMileage(25000)
+                .setPrice(BigDecimal.valueOf(10000))
+                .setYear(2019)
+                .setTransmission(Transmission.MANUAL)
+                .setDescription("Driven by an old lady! Held in the garage during the winter season")
+                .setModel(fiesta);
+
+        offerRepository.save(fiestaOffer);
     }
 
 }
