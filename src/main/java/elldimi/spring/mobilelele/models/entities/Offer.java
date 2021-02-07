@@ -1,7 +1,7 @@
-package elldimi.spring.mobilelele.entities;
+package elldimi.spring.mobilelele.models.entities;
 
-import elldimi.spring.mobilelele.enums.Engine;
-import elldimi.spring.mobilelele.enums.Transmission;
+import elldimi.spring.mobilelele.models.entities.enums.Engine;
+import elldimi.spring.mobilelele.models.entities.enums.Transmission;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

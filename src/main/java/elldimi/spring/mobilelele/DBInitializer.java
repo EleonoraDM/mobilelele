@@ -50,13 +50,13 @@ public class DBInitializer implements CommandLineRunner {
                 Category.CAR,
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSw4J1GhssN62rwJMZ-KguprsA4EishMycdQ&usqp=CAU",
                 1998,
-                honda);
+                ford);
         Model YZFR3 = new Model(
                 "YZF-R3",
                 Category.MOTORCYCLE,
                 "https://www.webbikeworld.com/wp-content/uploads/2020/01/2020-Yamaha-YZF-R3.jpg",
                 2020,
-                honda);
+                yamaha);
 
         modelRepository.saveAll(List.of(fiesta, civic, focus, YZFR3));
     }

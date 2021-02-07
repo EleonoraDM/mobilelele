@@ -1,4 +1,4 @@
-package elldimi.spring.mobilelele.entities;
+package elldimi.spring.mobilelele.models.entities;
 
 import javax.persistence.*;
 import java.util.List;

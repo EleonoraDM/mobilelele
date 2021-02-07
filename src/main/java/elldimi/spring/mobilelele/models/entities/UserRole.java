@@ -1,6 +1,6 @@
-package elldimi.spring.mobilelele.entities;
+package elldimi.spring.mobilelele.models.entities;
 
-import elldimi.spring.mobilelele.enums.Role;
+import elldimi.spring.mobilelele.models.entities.enums.Role;
 
 import javax.persistence.*;
 

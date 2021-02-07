@@ -1,4 +1,4 @@
-package elldimi.spring.mobilelele.enums;
+package elldimi.spring.mobilelele.models.entities.enums;
 
 public enum Engine {
     GASOLINE,

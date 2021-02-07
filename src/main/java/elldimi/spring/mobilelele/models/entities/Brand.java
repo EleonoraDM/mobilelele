@@ -1,4 +1,4 @@
-package elldimi.spring.mobilelele.entities;
+package elldimi.spring.mobilelele.models.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +10,13 @@ public class Brand extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String name;
+
+    public Brand() {
+    }
+
+    public Brand(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
