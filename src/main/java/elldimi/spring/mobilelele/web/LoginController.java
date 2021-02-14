@@ -23,13 +23,20 @@ public class LoginController {
     }
 
     @PostMapping("/users/login")
-    public String login(UserCredentialsContainer model){
-        if (userService.authenticate(model.getUsername(), model.getPassword())){
+    public String login(UserCredentialsContainer model) {
+        if (userService.authenticate(model.getUsername(), model.getPassword())) {
             userService.loginUser(model.getUsername());
             return "redirect:/";
-        }else {
+        } else {
             return "redirect:/users/login";
         }
+    }
+
+    @PostMapping("/users/logout")
+    public String logout() {
+        userService.logoutUser();
+        return "redirect:/";
+
 
     }
 }
