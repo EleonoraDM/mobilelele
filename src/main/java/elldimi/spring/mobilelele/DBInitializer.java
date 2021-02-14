@@ -1,16 +1,11 @@
 package elldimi.spring.mobilelele;
 
-import elldimi.spring.mobilelele.models.entities.Brand;
-import elldimi.spring.mobilelele.models.entities.Model;
-import elldimi.spring.mobilelele.models.entities.Offer;
-import elldimi.spring.mobilelele.models.entities.User;
+import elldimi.spring.mobilelele.models.entities.*;
 import elldimi.spring.mobilelele.models.entities.enums.Category;
 import elldimi.spring.mobilelele.models.entities.enums.Engine;
+import elldimi.spring.mobilelele.models.entities.enums.Role;
 import elldimi.spring.mobilelele.models.entities.enums.Transmission;
-import elldimi.spring.mobilelele.repositories.BrandRepository;
-import elldimi.spring.mobilelele.repositories.ModelRepository;
-import elldimi.spring.mobilelele.repositories.OfferRepository;
-import elldimi.spring.mobilelele.repositories.UserRepository;
+import elldimi.spring.mobilelele.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -26,18 +21,21 @@ public class DBInitializer implements CommandLineRunner {
     private final OfferRepository offerRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
 
     public DBInitializer(
             BrandRepository brandRepository,
             ModelRepository modelRepository,
             OfferRepository offerRepository,
             PasswordEncoder passwordEncoder,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            UserRoleRepository userRoleRepository) {
         this.brandRepository = brandRepository;
         this.modelRepository = modelRepository;
         this.offerRepository = offerRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.userRoleRepository = userRoleRepository;
     }
 
     @Transactional
@@ -81,18 +79,32 @@ public class DBInitializer implements CommandLineRunner {
 
         createOffer(fiesta);
 
-        initAdmin();
-
+        initUser();
     }
 
-    private void initAdmin() {
+    private void initUser() {
+        UserRole adminRole = new UserRole().setRole(Role.ADMIN);
+        UserRole userRole = new UserRole().setRole(Role.USER);
+
+        userRoleRepository.saveAll(List.of(adminRole, userRole));
+
         User admin = new User();
         admin
                 .setFirstName("Dandrick")
                 .setLastName("Eldridge")
                 .setUsername("DDE")
-                .setPassword(passwordEncoder.encode("coward"));
-        userRepository.save(admin);
+                .setPassword(passwordEncoder.encode("coward"))
+                .setUserRoles(List.of(adminRole, userRole));
+
+        User escapee = new User();
+        escapee
+                .setFirstName("Noname")
+                .setLastName("Nobody")
+                .setUsername("NNE")
+                .setPassword(passwordEncoder.encode("craven"))
+                .setUserRoles(List.of(userRole));
+
+        userRepository.saveAll(List.of(admin, escapee));
     }
 
     private void createOffer(Model fiesta) {

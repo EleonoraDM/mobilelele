@@ -14,7 +14,7 @@ public class User extends BaseEntity {
     @Column(name = "last_name")
     private String lastName;
     private boolean isActive;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Column(name = "user_roles")
     private List<UserRole> userRoles;
     @Column(length = 512, name = "image_url")

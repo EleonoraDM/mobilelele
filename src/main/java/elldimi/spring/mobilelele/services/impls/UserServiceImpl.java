@@ -1,13 +1,17 @@
 package elldimi.spring.mobilelele.services.impls;
 
 import elldimi.spring.mobilelele.models.entities.User;
+import elldimi.spring.mobilelele.models.entities.UserRole;
+import elldimi.spring.mobilelele.models.entities.enums.Role;
 import elldimi.spring.mobilelele.repositories.UserRepository;
 import elldimi.spring.mobilelele.security.CurrentUser;
 import elldimi.spring.mobilelele.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -37,9 +41,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void loginUser(String userName) {
+
+        User user = userRepository.findUserByUsername(userName).orElseThrow();
+
+        List<Role> userRoles = user
+                .getUserRoles()
+                .stream()
+                .map(UserRole::getRole)
+                .collect(Collectors.toList());
+
         currentUser
                 .setAnonymous(false)
-                .setName(userName);
+                .setName(user.getUsername())
+                .setUserRoles(userRoles);
     }
 
     @Override
